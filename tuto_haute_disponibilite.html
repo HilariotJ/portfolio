@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutoriel – Haute Disponibilité Apache & Heartbeat</title>
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<style>
+:root {
+  --accent:#22d3ee;
+  --bg-main:#0a0f1e;
+  --bg-card:rgba(255,255,255,0.06);
+  --text-main:#e5e7eb;
+  --text-muted:#9ca3af;
+  --border-soft:rgba(255,255,255,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Montserrat,Arial,sans-serif;background:var(--bg-main);color:var(--text-main);line-height:1.7}
+
+/* Layout */
+.container{max-width:980px;margin:auto;padding:60px 24px}
+header{text-align:center;margin-bottom:60px}
+header h1{font-size:38px;margin-bottom:10px}
+header p{color:var(--text-muted)}
+
+.article-card{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:22px;padding:36px;margin-bottom:40px;backdrop-filter:blur(10px)}
+.article-card h2{border-left:4px solid var(--accent);padding-left:12px;margin-bottom:20px;font-size:24px}
+.article-card h3{margin:25px 0 10px;font-size:20px;color:var(--accent)}
+.article-card p{margin-bottom:14px;color:var(--text-main)}
+.article-card ul{margin-left:20px;margin-bottom:14px}
+.article-card li{margin-bottom:8px;color:var(--text-muted)}
+
+code, pre{background:#020617;color:#e5e7eb;border-radius:12px}
+pre{padding:18px;overflow-x:auto;margin:18px 0;border:1px solid var(--border-soft)}
+
+.badge{display:inline-block;background:rgba(34,211,238,0.15);color:var(--accent);padding:6px 14px;border-radius:999px;font-size:13px;margin-bottom:20px}
+
+footer{text-align:center;color:var(--text-muted);font-size:14px;padding:40px 0}
+
+@media(max-width:768px){header h1{font-size:28px}.article-card{padding:24px}}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <span class="badge">Tutoriel Système & Réseau</span>
+    <h1>Mise en place d’un système de haute disponibilité<br>Apache & Heartbeat</h1>
+    <p>Guide pratique pour concevoir un service web résilient sous Linux</p>
+  </header>
+
+  <section class="article-card">
+    <h2>Introduction</h2>
+    <p>La haute disponibilité est un concept clé dans les infrastructures modernes. Elle vise à garantir l’accessibilité continue d’un service, même en cas de panne matérielle ou logicielle.</p>
+    <p>Ce tutoriel explique pas à pas comment mettre en place un <strong>système de haute disponibilité</strong> pour un serveur web Apache en utilisant <strong>Heartbeat</strong> sur Linux.</p>
+  </section>
+
+  <section class="article-card">
+    <h2>Principes de la haute disponibilité</h2>
+    <ul>
+      <li>Redondance des serveurs</li>
+      <li>Surveillance continue des services</li>
+      <li>Basculement automatique (failover)</li>
+      <li>Réduction du temps d’indisponibilité</li>
+    </ul>
+  </section>
+
+  <section class="article-card">
+    <h2>Architecture du système</h2>
+    <p>Le système repose sur deux serveurs Linux configurés en cluster actif/passif.</p>
+    <ul>
+      <li>Deux nœuds Linux (physiques ou virtuels)</li>
+      <li>Apache installé sur chaque nœud</li>
+      <li>Une adresse IP virtuelle partagée</li>
+      <li>Heartbeat pour la gestion du basculement</li>
+    </ul>
+  </section>
+
+  <section class="article-card">
+    <h2>Installation d’Apache (Serveur 1 & Serveur 2)</h2>
+    <p>Les deux nœuds doivent disposer d’Apache avec une configuration identique.</p>
+    <h3>Serveur 1 (node1)</h3>
+    <pre><code>sudo apt update
+sudo apt install apache2 -y
+sudo systemctl enable apache2
+sudo systemctl start apache2</code></pre>
+    <p>Fichier de configuration principal :</p>
+    <pre><code>/etc/apache2/apache2.conf</code></pre>
+
+    <h3>Serveur 2 (node2)</h3>
+    <pre><code>sudo apt update
+sudo apt install apache2 -y
+sudo systemctl enable apache2
+sudo systemctl start apache2</code></pre>
+    <p>Les fichiers suivants doivent être identiques sur les deux serveurs :</p>
+    <ul>
+      <li><code>/etc/apache2/apache2.conf</code></li>
+      <li><code>/etc/apache2/sites-available/000-default.conf</code></li>
+    </ul>
+  </section>
+
+  <section class="article-card">
+    <h2>Configuration détaillée de Heartbeat</h2>
+
+    <h3>Installation (Serveur 1 & Serveur 2)</h3>
+    <pre><code>sudo apt install heartbeat -y</code></pre>
+
+    <h3>Fichier /etc/heartbeat/ha.cf</h3>
+    <p>À configurer de manière identique sur les deux serveurs.</p>
+    <pre><code>keepalive 2
+deadtime 10
+udpport 694
+autofailback on
+node node1
+node node2</code></pre>
+
+    <h3>Fichier /etc/heartbeat/authkeys</h3>
+    <pre><code>auth 1
+1 crc</code></pre>
+    <p>Puis sécuriser le fichier :</p>
+    <pre><code>chmod 600 /etc/heartbeat/authkeys</code></pre>
+
+    <h3>Fichier /etc/heartbeat/haresources (Serveur 1)</h3>
+    <pre><code>node1 192.168.1.100 apache2</code></pre>
+    <p>L’adresse <strong>192.168.1.100</strong> est l’IP virtuelle utilisée par les clients.</p>
+  </section>
+
+  <section class="article-card">
+    <h2>Tests de basculement et scénarios</h2>
+
+    <h3>Scénario 1 : Arrêt du service Apache (Serveur 1)</h3>
+    <pre><code>sudo systemctl stop apache2</code></pre>
+    <p><strong>Résultat attendu :</strong> l’IP virtuelle bascule vers le serveur 2 et Apache devient accessible.</p>
+
+    <h3>Scénario 2 : Arrêt du service Heartbeat (Serveur 1)</h3>
+    <pre><code>sudo systemctl stop heartbeat</code></pre>
+    <p><strong>Résultat :</strong> Heartbeat détecte la panne et déclenche le basculement.</p>
+
+    <h3>Scénario 3 : Panne réseau du Serveur 1</h3>
+    <p>Simulation par débranchement réseau ou arrêt de l’interface.</p>
+    <p><strong>Résultat :</strong> le serveur 2 devient maître et reprend l’IP virtuelle.</p>
+
+    <h3>Scénario 4 : Redémarrage du Serveur 1</h3>
+    <p><strong>Résultat :</strong> selon la configuration <code>autofailback</code>, le service peut rester sur le serveur 2 ou revenir automatiquement.</p>
+  </section>
+
+  <section class="article-card">
+    <h2>Bonnes pratiques</h2>
+    <ul>
+      <li>Tester régulièrement les scénarios de panne</li>
+      <li>Mettre en place une supervision complémentaire</li>
+      <li>Centraliser les journaux système</li>
+      <li>Sécuriser les communications entre nœuds</li>
+    </ul>
+  </section>
+
+  <section class="article-card">
+    <h2>Conclusion</h2>
+    <p>La combinaison d’Apache et Heartbeat permet de mettre en œuvre une solution fiable de haute disponibilité. Ce type d’architecture constitue une excellente base pour des projets académiques ou professionnels en administration système et réseau.</p>
+  </section>
+</div>
+
+<footer>
+  <p>© 2025 – Tutoriel Système & Réseau</p>
+</footer>
+
+</body>
+</html>

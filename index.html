@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio | Collaborateur IT</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/script.js" defer></script>
+</head>
+<body>
+
+<div class="sidebar">
+  <img src="images/me.webp" alt="Avatar">
+  <a href="#home"><i class="fa fa-home"></i>Home</a>
+  <a href="#about"><i class="fa fa-user"></i>About</a>
+  <a href="#projects"><i class="fa fa-eye"></i>Projects</a>
+  <a href="#contact"><i class="fa fa-envelope"></i>Contact</a>
+</div>
+
+<main>
+  <section id="home" class="hero">
+    <div class="hero-photo"><img src="images/me.webp" alt="Photo de profil"></div>
+    <h1>Bonjour, je suis <span>Hilariot</span></h1>
+    <p>Collaborateur IT | Réseaux • Systèmes • Télécommunications • Robotique • IoT</p>
+    <button class="btn-download" onclick="downloadCV()">
+      <i class="fa fa-download"></i> Télécharger mon CV
+    </button>
+  </section>
+
+  <section id="about" class="section">
+    <h2>À propos de moi</h2>
+    <div class="card">
+      <p>Collaborateur IT polyvalent, je conçois et déploie des solutions dans les domaines des réseaux, systèmes, télécommunications, robotique et IoT. Formé à l’ESPA, j’ai mené un mémoire sur la conception d’un bras robotique piloté par application Android et réalisé un stage autour de la haute disponibilité de services sous Linux. J’aime transformer des besoins concrets en solutions fiables, en m’appuyant sur une approche rigoureuse, autonome et orientée résultats, et je suis aujourd’hui ouvert aux opportunités en réseaux/systèmes, IT support et projets IoT/robotique.</p>
+    </div>
+    </section>
+    <section id="skills" class="section">
+    <h2>Mes Compétences</h2>
+    <div class="skills-container">
+  <div class="skill-card">
+    <h3>Réseaux & Systèmes</h3>
+    <p>Mise en place, configuration et administration de serveurs et services réseau, avec capacité à apprendre rapidement de nouveaux environnements selon les besoins.</p>
+  </div>
+
+  <div class="skill-card">
+    <h3>Télécommunications & IoT</h3>
+    <p>Compréhension des principes de transmission de données et des systèmes embarqués, avec aptitude à s’approprier différentes technologies IoT selon les cas d’usage.</p>
+  </div>
+
+  <div class="skill-card">
+    <h3>Robotique & systèmes embarqués</h3>
+    <p>Participation à la conception et au pilotage de systèmes robotiques et embarqués, en adaptant les outils (cartes, capteurs, protocoles) aux contraintes du projet.</p>
+  </div>
+
+  <div class="skill-card">
+    <h3>Développement & intégration</h3>
+    <p>Bases solides en développement d’applications web et mobiles, avec une bonne capacité d’adaptation à de nouveaux langages, frameworks et environnements.</p>
+  </div>
+
+  <div class="skill-card">
+    <h3>Soft Skills</h3>
+    <p>Polyvalence, adaptabilité, autonomie, capacité à apprendre rapidement et à résoudre des problèmes dans des contextes techniques variés.</p>
+  </div>
+  </div>
+  </section>
+
+
+  <section id="projects" class="section">
+    <h2>Mes Projets</h2>
+    <div class="projects">
+      <div class="card" onclick="openModal('modal1')"><img src="images/bras.webp" alt="Bras Robotique" width="200" height="200" ><br/> Réalisation d'un bras robotique commandé par une application Android</div>
+      <div class="card" onclick="openModal('modal2')"><img src="images/ha.webp" alt="HA_simulation" width="200" height="200" ><br/>Implémentation d'une haute disponibilité de service avec Apache et Heartbeat</div>
+      <div class="card" onclick="openModal('modal3')"><img src="images/andacur.webp" alt="Andacur" width="200" height="200" ><br/>Andacur : Réseaux Social pour les etudiants de l'ESPA (En cours)</div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('modal1')">&times;</span>
+        <img src="images/bras.webp" alt="Bras Robotique">
+        <p>Dans le cadre de mon mémoire de fin d’études, j'ai conçu un bras manipulateur commandé via une application Android. Ce projet m'a permis de combiner mes connaissances en robotique et en développement mobile.</p>
+        <p>J'ai réalisé la partie matérielle avec Arduino, en programmant les servomoteurs pour exécuter des gestes précis. Sur Android Studio, j'ai développé l'application permettant de contrôler le bras à distance en temps réel.</p>
+        <p>Ce projet m'a appris à gérer la coordination entre matériel et logiciel, et à tester des interfaces utilisateurs intuitives. Le prototype fonctionne avec plusieurs gestes prédéfinis et a été validé avec succès lors de la soutenance.</p>
+
+        <p>Technologies : Arduino pour la conception matérielle ; Android Studio pour le développement de l’application.</p>
+        <a href="video.mp4">Demo</a>
+      </div>
+    </div>
+
+    <div id="modal2" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('modal2')">&times;</span>
+        <img src="images/ha.webp" alt="HA_simulation">
+        <p>Durant mon stage, j'ai travaillé sur la mise en place d'un système de haute disponibilité pour un service critique. L'objectif était d'assurer la continuité du service même en cas de panne d'un serveur.</p>
+        <p>J'ai configuré deux serveurs Linux avec Apache et Heartbeat, simulé des scénarios de défaillance et testé le basculement automatique. Chaque étape m'a permis de comprendre les contraintes des systèmes redondants et la gestion des services critiques en entreprise.</p>
+        <p>Grâce à ce projet, le service a pu rester opérationnel sans interruption lors de tests de panne, et j'ai renforcé mes compétences en administration serveur, virtualisation et supervision.</p>
+
+        <p>Technologies : Linux, VMWare workstation, Apache, Heartbeat </p>
+        <a href="tuto_haute_disponibilite.html" target="_blank" rel="noopener noreferrer">Voir le projet</a>
+      </div>
+    </div>
+
+    <div id="modal3" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('modal3')">&times;</span>
+        <img src="images/andacur.webp" alt="andacur">
+        <p>Andacur est un projet personnel visant à créer un réseau social interne pour les étudiants de l’École Supérieure Polytechnique d’Antananarivo. L'objectif était de faciliter les échanges académiques et le partage de ressources entre étudiants.</p>
+        <p>J'ai développé l'application web en HTML, CSS, PHP et MySQL, en concevant l'interface, la base de données et les fonctionnalités principales comme les publications, les commentaires et la messagerie interne.</p>
+        <p>Ce projet m'a permis de mettre en pratique mes compétences en développement web full-stack et de gérer un projet de bout en bout, du concept à la réalisation. Il est encore en cours, avec des améliorations prévues pour rendre l'expérience utilisateur encore plus fluide.</p>
+
+        <P>Pour contribuer, <a href="#contact">Contactez-moi</a></P>
+        <p>Technologies : HTML, CSS, PHP, MySQL</p>
+        <a href="#">Voir le projet</a>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="contact" class="section">
+    <h2>Contactez-moi</h2>
+
+    <p>
+      <i class="fa fa-phone-square" style="color:#22d3ee;""></i>
+      +361 34 61 637 06 
+    </p>
+    
+    <p>
+      <i class="fa fa-envelope" style="color:#22d3ee;"></i>
+      hilariotrazafinramanana@gmail.com
+    </p>
+
+    <p>
+      <i class="fa fa-facebook-official" style="color:#22d3ee;"></i>
+      Hilariot
+    </p>
+
+    <p>
+      <i class="fa fa-linkedin" style="color:#22d3ee;"></i>
+      Hilariot Jenny (Nasolo) RAZAFINDRAMANANA
+    </p>
+
+    <br/>
+
+    <form action="https://formspree.io/f/mqezkqyw" method="POST">
+      <input type="text" name="Nom" placeholder="Nom" required>
+      <input type="email" name="Email" placeholder="Email" required>
+      <input type="text" name="Sujet" placeholder="Sujet" required>
+      <textarea name="Message" placeholder="Message" required></textarea>
+      <button type="submit">Envoyer</button>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="social-links">
+    <a href="https://www.facebook.com/hilariot.razafinramanana" target="_blank" aria-label="Facebook">
+      <i class="fa fa-facebook-official"></i>
+    </a>
+
+    <a href="https://www.instagram.com/hilariotj/" target="_blank" aria-label="Instagram">
+      <i class="fa fa-instagram"></i>
+    </a>
+
+    <a href="https://twitter.com/TON_PROFIL" target="_blank" aria-label="Twitter">
+      <i class="fa fa-twitter"></i>
+    </a>
+
+    <a href="https://www.linkedin.com/in/hilariot-jenny-razafindramanana-2b18853a0/" target="_blank" aria-label="LinkedIn">
+      <i class="fa fa-linkedin"></i>
+    </a>
+  </div>
+
+  <p>© 2025-Collaborateur IT</p>
+</footer>
+
+<script>
+
+</script>
+
+</body>
+</html>
